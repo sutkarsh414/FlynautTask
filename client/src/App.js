@@ -7,21 +7,8 @@ import RegistrationPage from "./Pages/RegistrationPage";
 import {
   InternalDashboardContextProvider
 } from "./UserContext";
-import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:4000";
-
 
 function App() {
-
-  const [response, setResponse] = useState("");
-
-  useEffect(() => {
-    debugger
-    const socket = socketIOClient(ENDPOINT);
-    socket.on("FromAPI", data => {
-      setResponse(data);
-    });
-  }, []);
   // const getUser = () => {
   //   Axios({
   //     method: "GET",

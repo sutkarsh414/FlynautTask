@@ -9,35 +9,6 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const app = express();
 const User = require("./user");
-const http = require("http");
-const socketIo = require("socket.io");
-//----------------------------------------- END OF IMPORTS---------------------------------------------------
-
-const server = http.createServer(app);
-
-const io = socketIo(server); 
-let interval;
-
-io.on("connection", (socket) => {
-  console.log("New client connected");
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-    clearInterval(interval);
-  });
-});
-
-server.listen(port, () => console.log(`Listening on port ${port}`));
-
-const getApiAndEmit = socket => {
-  const response = new Date();
-  // Emitting a new message. Will be consumed by the client
-  socket.emit("FromAPI", response);
-};
-
 
 mongoose.connect(
   "mongodb+srv://sutkarsh414:888Arsh222@cluster0.loj6juu.mongodb.net/?retryWrites=true&w=majority",
