@@ -25,6 +25,7 @@ const RegistrationPage = () => {
     return updatedLocalDate;
   }
 
+  //Used socket programming to show current date time span
   useEffect(() => {
     socket.on("date", (currentDate) => {
       setDate(convertDateToFormat(currentDate));
