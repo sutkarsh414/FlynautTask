@@ -9,6 +9,27 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const app = express();
 const User = require("./user");
+const http = require('http');
+const server = http.createServer();
+
+const io = require('socket.io')(server,{
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }
+});
+
+io.on('connection', (socket) => {
+  console.log('New client connected');
+  setInterval(() => {
+    const currentDate = new Date();
+    socket.emit('date', currentDate);
+  }, 1000);
+});
+
+server.listen(4001, (res) => {
+  console.log('Server listening on http://localhost:4001');
+});
 
 mongoose.connect(
   "mongodb+srv://sutkarsh414:888Arsh222@cluster0.loj6juu.mongodb.net/?retryWrites=true&w=majority",

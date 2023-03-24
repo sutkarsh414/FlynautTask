@@ -3,11 +3,37 @@ import LoginLottie from "./../Assets/LoginLottie.json";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
+import io from "socket.io-client";
+import moment from "moment";
+
+const socket = io("http://localhost:4001");
+
 
 const RegistrationPage = () => {
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPasssword, setRegisterPassword] = useState("");
   const navigate = useNavigate();
+
+  const [date, setDate] = useState("");
+
+  // Convert Data to Specific fomrate 08 July 2022 10:00 AM
+  function convertDateToFormat(value) {
+    let updatedLocalDate = moment
+      .utc(value)
+      .local()
+      .format("DD MMMM YYYY hh:mm:ss A");
+    return updatedLocalDate;
+  }
+
+  useEffect(() => {
+    socket.on("date", (currentDate) => {
+      setDate(convertDateToFormat(currentDate));
+    });
+  }, []);
+
+  useEffect(()=>{
+    console.log(date)
+  },[date])
 
   //Api call and promise
   const register = () => {
@@ -36,7 +62,8 @@ const RegistrationPage = () => {
   return (
     <>
       <div className="grid grid-cols-12 h-full w-full absolute overflow-hidden flex bg-cover">
-        <div className="col-span-3 bg-gradient-to-r from-violet-500 to-fuchsia-500 flex items-center">
+        <div className="col-span-3 bg-gradient-to-r from-violet-500 to-fuchsia-500 flex items-center justify-center">
+          <span className="absolute top-10 text-white text-2xl">{date}</span>
           <div className=" h-80 w-80  mx-auto">
             <p className="flex justify-center">
               <EmptyAnimation animationData={LoginLottie} isLoop={true} />

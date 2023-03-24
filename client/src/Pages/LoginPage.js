@@ -4,17 +4,17 @@ import { useNavigate } from "react-router-dom";
 import EmptyAnimation from "../Components/EmptyAnimation";
 import InternalDashboardContext from "../UserContext";
 import LoginLottie from "./../Assets/LoginLottie.json";
-
 const LoginPage = () => {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
   const userCtx = useContext(InternalDashboardContext);
+
   const login = () => {
-    if(loginUsername === ""){
+    if (loginUsername === "") {
       alert("Please enter username");
       return false;
-    }else if(loginPassword === ""){
+    } else if (loginPassword === "") {
       alert("Please enter password");
       return false;
     }
@@ -28,10 +28,10 @@ const LoginPage = () => {
       url: "http://localhost:4000/login",
     })
       .then((res) => {
-        if(res.data !== "IncorrectDetails"){
+        if (res.data !== "IncorrectDetails") {
           userCtx.setIsUserLoggedIn(true);
           window.sessionStorage.setItem("LoginStatus", true);
-        }else{
+        } else {
           alert("Check credentials");
         }
         console.log(res);
